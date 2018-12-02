@@ -76,6 +76,7 @@ namespace CleanArchitecture.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // app.UseDatabaseErrorPage();
             }
             else
             {
