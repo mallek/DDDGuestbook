@@ -5,6 +5,7 @@ using System.Text;
 using CleanArchitecture.Core.Entities;
 using CleanArchitecture.Core.Events;
 using CleanArchitecture.Core.Interfaces;
+using CleanArchitecture.Core.Specifications;
 
 namespace CleanArchitecture.Core.Handlers
 {
@@ -21,11 +22,9 @@ namespace CleanArchitecture.Core.Handlers
 
 		public void Handle(EntryAddedEvent domainEvent)
 		{
-			var guestbook = _repo.GetById<Guestbook>(domainEvent.GuestbookId);
+			var gbnotificationpolicy = new GuestbookNotificationPolicy(domainEvent.Entry.Id);
 
-			var emailsToNotify = guestbook.Entries
-				.Where(x => x.DateTimeCreated > DateTimeOffset.UtcNow.AddDays(-1) && x.Id != domainEvent.Entry.Id)
-				.Select(e => e.EmailAddress);
+			var emailsToNotify = _repo.List(gbnotificationpolicy).Select(e => e.EmailAddress);
 
 			foreach (var email in emailsToNotify)
 			{
