@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Reflection;
+using CleanArchitecture.Core.Services;
+using Microsoft.VisualStudio.Web.CodeGeneration.Utils.Messaging;
 
 namespace CleanArchitecture.Web
 {
@@ -20,7 +22,9 @@ namespace CleanArchitecture.Web
     {
         public Startup(IConfiguration config)
         {
+		
             Configuration = config;
+			
         }
 
         public IConfiguration Configuration { get; }
@@ -63,6 +67,7 @@ namespace CleanArchitecture.Web
             Assembly coreAssembly = Assembly.GetAssembly(typeof(BaseEntity));
             Assembly infrastructureAssembly = Assembly.GetAssembly(typeof(EfRepository)); // TODO: Move to Infrastucture Registry
             builder.RegisterAssemblyTypes(webAssembly, coreAssembly, infrastructureAssembly).AsImplementedInterfaces();
+			
 
             IContainer applicationContainer = builder.Build();
             return new AutofacServiceProvider(applicationContainer);

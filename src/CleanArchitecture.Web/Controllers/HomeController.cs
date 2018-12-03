@@ -12,10 +12,10 @@ namespace CleanArchitecture.Web.Controllers
 
 	    private readonly IRepository _repository;
 
-	    public HomeController(IRepository repository)
+		public HomeController(IRepository repository)
 	    {
 		    _repository = repository;
-	    }
+		}
 
         public IActionResult Index()
         {
@@ -48,14 +48,13 @@ namespace CleanArchitecture.Web.Controllers
 		    if (ModelState.IsValid)
 		    {
 			    var guestbookToUpdate = _repository.GetById<Guestbook>(1);
+				guestbookToUpdate.AddEntry(model.NewEntry);
 			    var guestbookEntries = _repository.List<GuestBookEntry>();
-				guestbookToUpdate.Entries.Clear();
-				guestbookToUpdate.Entries.AddRange(guestbookEntries);
-				guestbookToUpdate.Entries.Add(model.NewEntry);
-				_repository.Update(guestbookToUpdate);
+
 
 				model.PreviousEntries.Clear();
-				model.PreviousEntries.AddRange(guestbookToUpdate.Entries);
+				model.PreviousEntries.AddRange(guestbookEntries);
+				model.PreviousEntries.Add(model.NewEntry);
 			    model.GuestBookName = guestbookToUpdate.Name;
 		    }
 
