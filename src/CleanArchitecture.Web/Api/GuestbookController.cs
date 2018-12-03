@@ -12,8 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Web.Api
 {
-
-
 	[Route("api/[controller]")]
 	[ValidateModel]
 	public class GuestbookController : Controller
@@ -26,17 +24,13 @@ namespace CleanArchitecture.Web.Api
 			_repository = repository;
 		}
 
-
-
 		// GET: api/Guestbook/1
 		[HttpGet("{id:int}")]
+		[VerifyGuestbookExists]
 		public IActionResult GetById(int id)
 		{
 			var guestbook = _repository.GetById<Guestbook>(id);
-			if (guestbook == null)
-			{
-				return NotFound(id);
-			}
+			
 
 			var entries = _repository.List<GuestBookEntry>();
 			guestbook.Entries.Clear();
@@ -45,13 +39,11 @@ namespace CleanArchitecture.Web.Api
 		}
 
 		[HttpPost("{id:int}/NewEntry")]
+		[VerifyGuestbookExists]
 		public IActionResult NewEntry(int id, [FromBody] GuestBookEntry entry)
 		{
 			var guestbook = _repository.GetById<Guestbook>(id);
-			if (guestbook == null)
-			{
-				return NotFound(id);
-			}
+			
 
 			var entries = _repository.List<GuestBookEntry>();
 			guestbook.Entries.Clear();
