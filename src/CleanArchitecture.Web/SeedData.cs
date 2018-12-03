@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Core.Entities;
+﻿using System;
+using CleanArchitecture.Core.Entities;
 using CleanArchitecture.Infrastructure.Data;
 
 namespace CleanArchitecture.Web
@@ -23,6 +24,13 @@ namespace CleanArchitecture.Web
                 Title = "Test Item 2",
                 Description = "Test Description Two"
             });
+
+	        var createdGuestbook = new Guestbook();
+	        createdGuestbook.Name = "My Guestbook";
+
+	        createdGuestbook.Entries.Add(new GuestBookEntry(){ EmailAddress = "thaley@dlr360.com", Message = "hello world", DateTimeCreated = DateTimeOffset.UtcNow.AddHours(-2)});
+	        dbContext.Guestbooks.Add(createdGuestbook);
+
             dbContext.SaveChanges();
         }
 
