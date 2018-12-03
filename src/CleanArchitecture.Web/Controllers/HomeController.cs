@@ -24,16 +24,21 @@ namespace CleanArchitecture.Web.Controllers
 		        var createdGuestbook = new Guestbook();
 		        createdGuestbook.Name = "My Guestbook";
 
-		        createdGuestbook.Entries.Add(new GuestBookEntry(){ EmailAddress = "thaley@dlr360.com", Message = "hello world", DateTimeCreated = DateTimeOffset.UtcNow.AddHours(-2)});
-		        createdGuestbook.Entries.Add(new GuestBookEntry(){ EmailAddress = "travis@haleycomputersolutions.com", Message = "hello world again", DateTimeCreated = DateTimeOffset.UtcNow.AddHours(-3)});
-		        createdGuestbook.Entries.Add(new GuestBookEntry(){ EmailAddress = "kcarter@dlr360.com", Message = "hello from Karen"});
+		        createdGuestbook.AddEntry(new GuestBookEntry(){ EmailAddress = "thaley@dlr360.com", Message = "hello world", DateTimeCreated = DateTimeOffset.UtcNow.AddHours(-2)});
+		        createdGuestbook.AddEntry(new GuestBookEntry(){ EmailAddress = "travis@haleycomputersolutions.com", Message = "hello world again", DateTimeCreated = DateTimeOffset.UtcNow.AddHours(-3)});
+		        createdGuestbook.AddEntry(new GuestBookEntry(){ EmailAddress = "kcarter@dlr360.com", Message = "hello from Karen"});
+		        createdGuestbook.Events.Clear();
 		        _repository.Add(createdGuestbook);
 	        }
 
 	        var guestbook = _repository.GetById<Guestbook>(1);
 	        var guestbookEntries = _repository.List<GuestBookEntry>();
 			guestbookEntries.Clear();
-			guestbook.Entries.AddRange(guestbookEntries);
+	        foreach (var entry in guestbookEntries)
+	        {
+				guestbook.AddEntry(entry);
+
+	        }
 
 	        var vm = new HomePageViewModel();
 	        vm.GuestBookName = guestbook.Name;

@@ -33,8 +33,11 @@ namespace CleanArchitecture.Web.Api
 			
 
 			var entries = _repository.List<GuestBookEntry>();
-			guestbook.Entries.Clear();
-			guestbook.Entries.AddRange(entries);
+			foreach (var entry in entries)
+			{
+				guestbook.AddEntry(entry);
+
+			}
 			return Ok(guestbook);
 		}
 
@@ -46,8 +49,11 @@ namespace CleanArchitecture.Web.Api
 			
 
 			var entries = _repository.List<GuestBookEntry>();
-			guestbook.Entries.Clear();
-			guestbook.Entries.AddRange(entries);
+			foreach (var gbentry in entries)
+			{
+				guestbook.AddEntry(gbentry);
+
+			}
 			guestbook.AddEntry(entry);
 			_repository.Update(guestbook);
 

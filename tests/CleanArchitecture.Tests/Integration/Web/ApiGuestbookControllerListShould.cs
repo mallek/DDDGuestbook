@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CleanArchitecture.Core.Entities;
 using CleanArchitecture.Web;
+using CleanArchitecture.Web.ApiModels;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Xunit;
@@ -28,9 +29,9 @@ namespace CleanArchitecture.Tests.Integration.Web
 			var response = await _client.GetAsync("/api/guestbook/1");
 			response.EnsureSuccessStatusCode();
 			var stringResponse = await response.Content.ReadAsStringAsync();
-			var result = JsonConvert.DeserializeObject<Guestbook>(stringResponse);
+			var result = JsonConvert.DeserializeObject<GuestbookDto>(stringResponse);
 
-			Assert.Equal("My Guestbook", result.Name);
+			Assert.Equal(1, result.Id);
 			Assert.True(result.Entries.Any());
 
 		}

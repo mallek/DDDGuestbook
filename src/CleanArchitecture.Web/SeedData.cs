@@ -28,7 +28,7 @@ namespace CleanArchitecture.Web
 	        var createdGuestbook = new Guestbook();
 	        createdGuestbook.Name = "My Guestbook";
 
-	        createdGuestbook.Entries.Add(new GuestBookEntry(){ EmailAddress = "thaley@dlr360.com", Message = "hello world", DateTimeCreated = DateTimeOffset.UtcNow.AddHours(-2)});
+	        createdGuestbook.AddEntry(new GuestBookEntry(){ EmailAddress = "thaley@dlr360.com", Message = "hello world", DateTimeCreated = DateTimeOffset.UtcNow.AddHours(-2)});
 	        dbContext.Guestbooks.Add(createdGuestbook);
 
             dbContext.SaveChanges();
